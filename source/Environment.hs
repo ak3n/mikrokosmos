@@ -9,7 +9,7 @@ state of the interpreter.
 module Environment
   (
   -- * Environment
-    Environment
+    Environment(..)
   , context
   , defaultEnv
   , emptyContext
