@@ -21,7 +21,6 @@ module Interpreter
   )
 where
 
-import           Control.Applicative           ((<$>), (<*>))
 import           Control.Monad.State.Lazy      
 import           Text.ParserCombinators.Parsec hiding (State)
 import           Data.Char

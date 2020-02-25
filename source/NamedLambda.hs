@@ -21,7 +21,6 @@ module NamedLambda
 where
 
 import           Text.ParserCombinators.Parsec
-import           Control.Applicative           ((<$>), (<*>))
 import qualified Data.Map.Strict               as Map
 import           Lambda
 import           MultiBimap
