@@ -43,7 +43,12 @@ executeWithEnv initEnv block = do
                              Left _  -> Nothing
                              Right a -> Just a) parsing
   case runState (multipleAct actions) initEnv of
-    (outputs, env) -> (unlines outputs, env)
+    (outputs, env) -> (unlines $ map format outputs, env)
+  where
+    format = formatColor
+    formatColor s
+      | getColor initEnv = s
+      | otherwise            = unlines $ map decolor $ lines s
 
 -- | Default environment plus standard libraries
 librariesEnv :: Environment
