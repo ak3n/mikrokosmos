@@ -48,7 +48,7 @@ executeWithEnv initEnv block = do
     format = formatColor
     formatColor s
       | getColor initEnv = s
-      | otherwise            = unlines $ map decolor $ lines s
+      | otherwise        = unlines $ map decolor $ lines s
 
 -- | Default environment plus standard libraries
 librariesEnv :: Environment
@@ -168,7 +168,32 @@ executeExpression le = do
            [unlines $ map (decolorif . showReduction) $ simplifySteps bruijn] ++
            [completeexp]
          ]
-  
+ 
+-- | Executes a lambda expression. Given the context, returns the new
+-- context after the evaluation.
+executeExpression' :: NamedLambda -> State Environment [String]
+executeExpression' le = do
+     env <- get
+     let typed = getTypes env
+     let bruijn = toBruijn (context env) le
+     let illtyped = typed && isNothing (typeinference bruijn)
+     let notypes = not typed && usestypecons bruijn
+     let verbose = getVerbose env
+     let completeexp = showCompleteExp env $ simplifyAll bruijn
+     let isopen = isOpenExp bruijn
+     let coloring = getColor env
+     let decolorif = if coloring then id else decolor
+     
+     return $
+       if isopen then [errorUndefinedText ++ "\n"] else
+       if illtyped then [errorNonTypeableText ++ "\n"] else
+       if notypes then [errorTypeConstructors ++ "\n"] else
+       if not verbose then [completeexp ++ "\n"] else
+         [unlines $
+           [show le] ++
+           [unlines $ map (decolorif . showReduction) $ simplifySteps bruijn] ++
+           [completeexp]
+         ] 
 
 -- | Executes multiple actions. Given a context and a set of actions, returns
 -- the new context after the sequence of actions and a text output.
