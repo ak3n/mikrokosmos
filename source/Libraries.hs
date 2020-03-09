@@ -45,8 +45,8 @@ stdfunctions =
   , Function "second" "second = \\p.p false" "Untyped tuple projection. Returns the second element of a tuple."
   , Function "omega" "omega := (\\x.(x x))(\\x.(x x))" "Omega combinator. An example of a non-reducible lambda calculus expression."
   , Function "fix" "fix := (\\f.(\\x.f (x x)) (\\x.f (x x)))" "Fixed-point combinator. Given f, returns an element x such that f x = x."
-  , Function "fact" "fact := fix (\\f.\\n.iszero n (succ 0) (mult n (f (pred n))))" "Factorial of a natural number."
-  , Function "fib" "fib := fix (\\f.\\n.iszero n (succ 0) (plus (f (pred n)) (f (pred (pred n)))))" "Returns the n-th Fibonacci number."
+  , Function "fact" "fact := fix (\\f.\\n.(\\n.\\x.\\y.n (\\z.y) x) n (succ 0) (mult n (f (pred n))))" "Factorial of a natural number."
+  , Function "fib" "fib := fix (\\f.\\n.(\\n.\\x.\\y.n (\\z.y) x) n (succ 0) (plus (f (pred n)) (f (pred (pred n)))))" "Returns the n-th Fibonacci number."
   ] ++ natsdef
   where
     fnat :: Int -> Function
