@@ -208,4 +208,4 @@ instance Options MainFlags where
   defineOptions = pure MainFlags
     <*> simpleOption "exec"    ""    "A file to execute and show its results"
     <*> simpleOption "version" False "Show program version"
-    <*> simpleOption "no-libs" True "Runs mikrokosmos without standard libraries"
+    <*> simpleOption "no-libs" False "Runs mikrokosmos without standard libraries"
